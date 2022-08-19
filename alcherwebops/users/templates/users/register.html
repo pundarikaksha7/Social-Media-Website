@@ -1,0 +1,33 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Register</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'pages/login_page_css.css' %}">
+    <div id="header" style="display:flex;cursor: pointer;">
+        <img src="{% static 'pages/alcher.png' %}">
+        <h1 style="font-weight:100">Alcheringa <span style="color:orangered;font-weight: 100;">Connect</span></h1>
+     </div>
+</head>
+<body>
+	<div style="border-style: solid;width: 500px;margin-left: 5%;margin-top:1%;border-radius: 4%;padding:1%;border-color: grey;">
+	<form method="POST" style="text-align:left;">
+		{% csrf_token %}
+		<fieldset>
+			
+			<legend>Join Today</legend>
+			
+			{{form|crispy}}
+		</fieldset>
+		<button type="submit" style="background-color:orangered;color:white;border-style:none;border-radius:5px;font-family: sans-serif;">Sign Up</button>
+	</form>
+	<small style="margin-left:5%;">
+		Already have an account? <a href="login/">Sign In</a>
+	</small>
+	</div>
+</body>
+</html>

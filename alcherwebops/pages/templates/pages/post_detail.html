@@ -1,0 +1,91 @@
+{% load static%}
+<!DOCTYPE html>
+<head>
+    <title>Alcher WebOps</title>
+    <link rel="stylesheet" href="{% static 'pages/login_page_css.css' %}">
+    <div id="header" style="display:flex;">
+        <img src="{% static 'pages/alcher.png' %}">
+        <a style="text-decoration: none;" href="{%url 'profile-page'%}"><h1 style="font-weight:100;color:grey;text-decoration: none;">Alcheringa <span style="color:orangered;font-weight: 100;">Connect</span></h1><a>
+     </div>
+
+
+</head>
+<body style="font-family:sans-serif;">
+    
+    <div style="display:flex;">
+        <div style="display:block;margin-left: 3%;">
+            
+        
+            <div style="border-style:solid;border-color:grey;border-width:0.5px;width:400px;margin-left:8%;margin-top:2%;border-radius:10px;">
+                    <div style="display: flex;margin-bottom: 1%;">
+                        <img src="{{object.username.profile.image.url}}" style="border-radius:50%;margin-top:1%;margin-left:3%;height:30px;width:30px;"> 
+                        <p style="font-weight: 600;margin-top:3%;margin-left: 2%;margin-top: 2.5%;">{{object.username}}</p>  
+                       
+                    </div>
+                    <img src="{{post.picture.url}}" style="width:100%;height:160px;margin-top:-2%;justify-content: center;">
+                <div style="display: block;">
+                    <p style="font-family: sans-serif;margin-left: 2%;">{{object.caption}}</p> 
+                    <div style="display:flex;">
+                        <a href="{% url 'favourite_add' post.id %}">
+                        <img id ="savebutton" src="{% static 'pages/save.png' %}" style="height: 30px;margin-left:0%;cursor:pointer;" onmouseover="changeColor()" onmouseout="changeColorBack()"></a>
+
+                    </div>
+                </div>
+            
+
+        </div>
+        
+    </div>
+        <!-- {% for post in posts%}
+            {{post.caption}}
+            {{post.username}}
+        {% endfor%} -->
+        <div style="display:block;width:25%;margin-left:72%;border-radius: 10px;margin-top:-1.75%;position: fixed;">
+            <div style="width:100%;height:150px;margin-top:-6%;border-top-left-radius: 10px;border-top-right-radius: 10px;" class="redbox">
+                <h1 style="color:white;font-weight:100;margin-top:4%;position:absolute;margin-left:2%;">My Profile</h1>
+                <a href='{% url "logout" %}'><img src="{% static 'pages/logout.jpg' %}" style="width:25px;margin-top:53%;margin-left:80%;"></a>
+            </div>
+            <img src="{{user.profile.image.url}}"style="width:30px;border-radius:50%;height:30px;margin-top:6%;margin-left:3%;">
+            <h4 style="color:grey;font-weight:100;margin-left:17%;margin-top:-15%;">Username</h4>
+            <h3 style="margin-left:17%;margin-top:-7%;">{{request.user.username}}</h3>
+            <p>{{user.profile.bio}}</p>
+           
+            <div style="display:flex; cursor:pointer;">
+                <img src="{% static 'pages/add1.png' %}" style="width:10%;height:10%;margin-top:3%;">
+                <a href="{% url 'my-posts-page'%}"  style="margin-left:2%;margin-top:5%;color:black;text-decoration: none;">My Posts</a>
+            </div>
+
+           <div style="display:flex; cursor:pointer;">
+                <img src="{% static 'pages/save.png' %}" style="width:10%;height:10%;margin-top:3%;">
+                <a href="{% url 'favourite_list' %}" style="margin-left:2%;margin-top: 4%;text-decoration: none;color: black;">Saved Posts</a>
+            </div>
+            <div style="display:flex; cursor:pointer;">
+                <img src="{% static 'pages/profile.jpg' %}" style="width:18%;margin-top:1%;margin-left: -3.5%;">
+                <a href='{% url "update-profile-page" %}'style="margin-left:-2%;margin-top:7%;color:black;text-decoration:none;">Update Profile</a>
+            </div>
+
+            <div style="display:flex; cursor:pointer;margin-top:10%;">
+                <img src="{% static 'pages/add1.png' %}" style="width:10%;height:10%;margin-top:3%;margin-left: 0.5%;">
+                <a href='{% url "upload-page" %}'style="margin-left:2%;margin-top:5%;color:black;text-decoration:none;">Add Post</a>
+            </div>
+            <img src="{% static 'pages/save3.png' %}" style="display:none" id="save3">
+            
+                
+              
+        </div>
+
+    </div>
+    <script type="text/javascript">
+        function changeColor()
+        {
+            document.getElementById("savebutton").src="{% static 'pages/save4.png' %}";
+        }
+        function changeColorBack()
+        {
+            document.getElementById("savebutton").src="{% static 'pages/save.png' %}";
+        }
+        
+    </script>
+
+</body>
+</html>

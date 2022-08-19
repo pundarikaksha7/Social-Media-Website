@@ -1,0 +1,139 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<!DOCTYPE>
+<html>
+    <head>
+    <link rel="stylesheet" href="{% static 'pages/upload_page_css.css' %}">
+    <link rel="stylesheet" href="{% static 'pages/login_page_css.css' %}">
+    
+    <div id="header" style="display:flex;">
+        <img src="{% static 'pages/alcher.png' %}">
+        <a style="text-decoration: none;" href="{%url 'profile-page'%}"><h1 style="font-weight:100;color:grey;text-decoration: none;">Alcheringa <span style="color:orangered;font-weight: 100;">Connect</span></h1><a>
+     </div>
+    
+    </head>
+    <body style="font-family:sans-serif;">
+        <div style="display:block;width:25%;margin-left:71%;border-radius: 10px;margin-top:-4.5%;">
+            <div style="width:100%;height:150px;margin-top:-4%;border-top-left-radius: 10px;border-top-right-radius: 10px;" class="redbox">
+                <h1 style="color:white;font-weight:100;margin-top:4%;position:absolute;margin-left:2%;">My Profile</h1>
+                <a href='{% url "logout" %}'><img src="{% static 'pages/logout.jpg' %}" style="width:25px;margin-top:53%;margin-left:80%;"></a>
+            </div>
+            <img src="{{user.profile.image.url}}" style="width:30px;border-radius:50%;height:30px;margin-top:6%;margin-left:3%;">
+            <h4 style="color:grey;font-weight:100;margin-left:17%;margin-top:-15%;">Username</h4>
+            <h3 style="margin-left:17%;margin-top:-7%;">{{request.user.username}}</h3>
+            <p>{{user.profile.bio}}</p>
+             <div style="display:flex; cursor:pointer;">
+                <img src="{% static 'pages/add1.png' %}" style="width:10%;height:10%;margin-top:3%;">
+                <a href="{% url 'my-posts-page'%}"  style="margin-left:2%;margin-top:5%;color:black;text-decoration: none;">My Posts</a>
+            </div>
+
+            <div style="display:flex; cursor:pointer;">
+                <img src="{% static 'pages/save.png' %}" style="width:10%;height:10%;margin-top:3%;">
+                <a href="{% url 'favourite_list' %}" style="margin-left:2%;margin-top: 4%;text-decoration: none;color: black;">Saved Posts</a>
+            </div>
+            <div style="display:flex; cursor:pointer;">
+                <img src="{% static 'pages/profile.jpg' %}" style="width:18%;margin-top:1%;margin-left: -3.5%;">
+                <a href='{% url "update-profile-page" %}'style="margin-left:-2%;margin-top:7%;color:black;text-decoration:none;">Update Profile</a>
+            </div>
+
+            <div style="display:flex; cursor:pointer;margin-top:10%;">
+                <img src="{% static 'pages/add1.png' %}" style="width:10%;height:10%;margin-top:3%;margin-left: 0.5%;">
+                <a href='{% url "upload-page" %}'style="margin-left:2%;margin-top:5%;color:black;text-decoration:none;">Add Post</a>
+            </div>
+            
+            
+                
+              
+        </div>
+    </div>
+        <div class="box5" style="margin-top:-32%;border-style: none;">
+            <div style="">
+                <form method="POST" style="border-style: none;" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <fieldset style="border-style: solid;border-color: white;border-radius: 10px;font-family: sans-serif;padding: 3%;height: 250px;">
+                        
+                        {{form|crispy}} 
+                    </fieldset>
+                    <button type="submit" style="background-color:orangered;color:white;border-style:none;border-radius:5px;font-family: sans-serif;height: 30px;width: 80px;margin-top:2%;cursor: pointer;">Post</button>
+                </form>
+        </div>
+            <main id="main">
+                <div id="loca" class="loca">
+                        <p style="color:grey;font-weight:200;font-size:16px;font-family:'Manrope';margin-left:1%;">Current Location</p>
+                        <span class="city" id="city">Your</span>&emsp14;<span class="state" id="state">location</span>
+                        <span class="postal" id="postal"></span></p>
+                </p>
+            </main>
+            
+        </div>
+        
+        
+        
+                  <script>
+        
+                  const API_URL1="https://us1.locationiq.com/v1/reverse?key=pk.b3dc614e62a24dcd3d540515aa27a953&lat=";
+                    const API_URL2="&lon=";
+                    const API_URL3="&format=json";
+                    getLocation();
+        
+                    function getLocation() {
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(showPosition);
+                    } else { 
+                        x.innerHTML = "Geolocation is not supported by this browser.";
+                    }
+                    }
+                    
+        
+                    function showPosition(position) {
+        
+                    var lat1=position.coords.latitude;
+                    var long1=position.coords.longitude;
+                    const API_URL = API_URL1+lat1+API_URL2+long1+API_URL3;
+                    api_key="pk.b3dc614e62a24dcd3d540515aa27a953";
+                    const main=document.getElementById('main');
+                    getLoc(API_URL);
+                    
+                    
+                    }
+                    function getLoc(url)
+                    {
+                        fetch(url)
+                        .then(res=>res.json())
+                        .then(data=>{
+                            console.log(data)
+                            fetchLoc(data);
+                           
+        
+        
+                            
+                        })
+                    }
+                    function fetchLoc(data)
+                    {
+                        if(data.address.city_district!=undefined || data.address.city!=undefined)
+                        {    
+                            var x=data.address.city_district;
+                            var y=data.address.city;
+                            var z=data.address.postcode;
+                        }
+                        else
+                        {
+                            var x=data.address.county;
+                            var y=data.address.state;
+                            var z=data.address.postcode;
+                        }
+                        const locEl=document.createElement('div');
+        
+                        document.getElementById("city").innerHTML=x;
+                        document.getElementById("state").innerHTML=y;
+                        document.getElementById("postal").innerHTML=z;
+                        
+                        
+                    }
+                  </script>
+
+    
+
+    </body>
+</html>
